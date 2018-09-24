@@ -1,10 +1,12 @@
 package com.example.kolyakb.navigation_drawer_1.Adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
 
 import com.example.kolyakb.navigation_drawer_1.R;
 
@@ -30,7 +32,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return listItem.size();
+       // return listItem.size();
+        return listItem.get(listTitle.get(groupPosition).toString()).size();
     }
 
     @Override
@@ -64,16 +67,27 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.list_group, null);
         }
-        return null;
+
+        TextView txtTitle = (TextView) view.findViewById(R.id.listTitle);
+        txtTitle.setTypeface(null, Typeface.BOLD);
+        txtTitle.setText(title);
+        return view;
     }
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        return null;
+        String title = (String) getChild(i, i1);
+        if (view == null){
+            view = LayoutInflater.from(context).inflate(R.layout.list_item, null);
+        }
+
+        TextView txtChild = (TextView) view.findViewById(R.id.expandabledListItem);
+        txtChild.setText(title);
+        return view;
     }
 
     @Override
     public boolean isChildSelectable(int i, int i1) {
-        return false;
+        return true;
     }
 }

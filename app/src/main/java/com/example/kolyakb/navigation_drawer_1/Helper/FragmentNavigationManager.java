@@ -1,9 +1,14 @@
 package com.example.kolyakb.navigation_drawer_1.Helper;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
+import com.example.kolyakb.navigation_drawer_1.BuildConfig;
+import com.example.kolyakb.navigation_drawer_1.Fragments.FragmentContent;
 import com.example.kolyakb.navigation_drawer_1.Interface.NavigationManager;
 import com.example.kolyakb.navigation_drawer_1.MainActivity;
+import com.example.kolyakb.navigation_drawer_1.R;
 
 public class FragmentNavigationManager implements NavigationManager {
 
@@ -30,5 +35,19 @@ public class FragmentNavigationManager implements NavigationManager {
     @Override
     public void showFragments(String title) {
 
+       showFragments(FragmentContent.newInstance(title), false);
+
+
+    }
+
+    private void showFragments(Fragment fragmentContent, boolean b) {
+        FragmentManager fm = mFragmentManager;
+        FragmentTransaction ft = fm.beginTransaction().replace(R.id.container, fragmentContent);
+        ft.addToBackStack(null);
+        if (b || !BuildConfig.DEBUG)
+            ft.commitAllowingStateLoss();
+        else
+            ft.commit();
+        fm.executePendingTransactions();
     }
 }
